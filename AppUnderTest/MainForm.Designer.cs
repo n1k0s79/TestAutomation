@@ -1,6 +1,6 @@
 ﻿namespace AppUnderTest
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,11 +35,13 @@
             this.labelTotal = new System.Windows.Forms.Label();
             this.nmMthCombination = new System.Windows.Forms.NumericUpDown();
             this.groupCombinations = new System.Windows.Forms.GroupBox();
+            this.textPossibleCombinations = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textMthCombination = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textPossiblePermutations = new System.Windows.Forms.TextBox();
             this.textMthPermutation = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@
             this.buttonGenerateAllPermutations = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.nmMthPermutation = new System.Windows.Forms.NumericUpDown();
-            this.textPossibleCombinations = new System.Windows.Forms.TextBox();
-            this.textPossiblePermutations = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nmCombinationItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmSubset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmMthCombination)).BeginInit();
@@ -153,6 +153,14 @@
             this.groupCombinations.TabStop = false;
             this.groupCombinations.Text = "Combinations";
             // 
+            // textPossibleCombinations
+            // 
+            this.textPossibleCombinations.Location = new System.Drawing.Point(127, 81);
+            this.textPossibleCombinations.Name = "textPossibleCombinations";
+            this.textPossibleCombinations.ReadOnly = true;
+            this.textPossibleCombinations.Size = new System.Drawing.Size(65, 20);
+            this.textPossibleCombinations.TabIndex = 12;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -206,6 +214,14 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Permutations";
+            // 
+            // textPossiblePermutations
+            // 
+            this.textPossiblePermutations.Location = new System.Drawing.Point(127, 55);
+            this.textPossiblePermutations.Name = "textPossiblePermutations";
+            this.textPossiblePermutations.ReadOnly = true;
+            this.textPossiblePermutations.Size = new System.Drawing.Size(65, 20);
+            this.textPossiblePermutations.TabIndex = 13;
             // 
             // textMthPermutation
             // 
@@ -285,23 +301,7 @@
             this.nmMthPermutation.TabIndex = 5;
             this.nmMthPermutation.ValueChanged += new System.EventHandler(this.nmMthPermutation_ValueChanged);
             // 
-            // textPossibleCombinations
-            // 
-            this.textPossibleCombinations.Location = new System.Drawing.Point(127, 81);
-            this.textPossibleCombinations.Name = "textPossibleCombinations";
-            this.textPossibleCombinations.ReadOnly = true;
-            this.textPossibleCombinations.Size = new System.Drawing.Size(65, 20);
-            this.textPossibleCombinations.TabIndex = 12;
-            // 
-            // textPossiblePermutations
-            // 
-            this.textPossiblePermutations.Location = new System.Drawing.Point(127, 55);
-            this.textPossiblePermutations.Name = "textPossiblePermutations";
-            this.textPossiblePermutations.ReadOnly = true;
-            this.textPossiblePermutations.Size = new System.Drawing.Size(65, 20);
-            this.textPossiblePermutations.TabIndex = 13;
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -309,8 +309,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupCombinations);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "AUT main form";
             ((System.ComponentModel.ISupportInitialize)(this.nmCombinationItems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmSubset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmMthCombination)).EndInit();

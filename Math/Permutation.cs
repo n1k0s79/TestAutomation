@@ -17,8 +17,6 @@ namespace Math
     {
         private long[] indexes = null;
 
-        private int[] data = null;
-
         public T[] InitialOrderItems { get; private set; }
 
         /// <summary> A permutation of items </summary>
