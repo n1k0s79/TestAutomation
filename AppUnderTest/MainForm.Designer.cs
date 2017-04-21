@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonGenerateAllCombinations = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textOutput = new System.Windows.Forms.TextBox();
             this.nmCombinationItems = new System.Windows.Forms.NumericUpDown();
             this.nmSubset = new System.Windows.Forms.NumericUpDown();
             this.labelTotal = new System.Windows.Forms.Label();
@@ -68,18 +68,18 @@
             this.buttonGenerateAllCombinations.UseVisualStyleBackColor = true;
             this.buttonGenerateAllCombinations.Click += new System.EventHandler(this.buttonGenerateAll_Click);
             // 
-            // textBox1
+            // textOutput
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(233, 20);
-            this.textBox1.MaxLength = 0;
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(448, 478);
-            this.textBox1.TabIndex = 1;
+            this.textOutput.Location = new System.Drawing.Point(233, 20);
+            this.textOutput.MaxLength = 0;
+            this.textOutput.Multiline = true;
+            this.textOutput.Name = "textOutput";
+            this.textOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textOutput.Size = new System.Drawing.Size(448, 478);
+            this.textOutput.TabIndex = 1;
             // 
             // nmCombinationItems
             // 
@@ -308,7 +308,7 @@
             this.ClientSize = new System.Drawing.Size(693, 510);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupCombinations);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textOutput);
             this.Name = "MainForm";
             this.Text = "AUT main form";
             ((System.ComponentModel.ISupportInitialize)(this.nmCombinationItems)).EndInit();
@@ -328,7 +328,7 @@
         #endregion
 
         private System.Windows.Forms.Button buttonGenerateAllCombinations;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textOutput;
         private System.Windows.Forms.NumericUpDown nmCombinationItems;
         private System.Windows.Forms.NumericUpDown nmSubset;
         private System.Windows.Forms.Label labelTotal;

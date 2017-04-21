@@ -18,7 +18,7 @@ namespace AppUnderTest
         private void buttonGenerateAll_Click(object sender, EventArgs e)
         {
             var all = Math.Combination<string>.GetAllPossible(GetItems(CombinationItems), SubsetCount);
-            textBox1.Text = ListToString(all);
+            textOutput.Text = ListToString(all);
         }
 
         private string ListToString<T>(List<T> items)
@@ -80,6 +80,11 @@ namespace AppUnderTest
             }
         }
 
+        public string GetTestString()
+        {
+            return "test";
+        }
+
         private void UpdateMthCombination()
         {
             var c = new Math.Combination<string>(GetItems(PermutationItems), SubsetCount);
@@ -130,7 +135,7 @@ namespace AppUnderTest
         private void buttonGenerateAllPermutations_Click(object sender, EventArgs e)
         {
             var all = Math.Permutation<string>.GetAllPossible(GetItems(PermutationItems));
-            textBox1.Text = ListToString(all);
+            textOutput.Text = ListToString(all);
         }
 
         private void nmPermutationItems_ValueChanged(object sender, EventArgs e)

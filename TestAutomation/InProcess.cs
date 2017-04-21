@@ -126,7 +126,7 @@ namespace TestAutomation
 
         delegate void SetControlPropertyValueDelegate(Form form, string controlName, string propertyName, object newValue);
 
-        static void SetControlPropertyValue(Form form, string controlName, string propertyName, object newValue)
+        public static void SetControlPropertyValue(Form form, string controlName, string propertyName, object newValue)
         {
             if (form.InvokeRequired)
             {
@@ -151,7 +151,7 @@ namespace TestAutomation
 
         delegate object GetControlPropertyValueDelegate(Form form, string controlName, string propertyName);
 
-        static object GetControlPropertyValue(Form form, string controlName, string propertyName)
+        public static object GetControlPropertyValue(Form form, string controlName, string propertyName)
         {
             if (form.InvokeRequired)
             {
@@ -172,14 +172,25 @@ namespace TestAutomation
 
         static AutoResetEvent are = new AutoResetEvent(false);
 
-        delegate void InvokeMethodHandler(Form f, string methodName, params object[] parms);
+        delegate object InvokeMethodDelegate(Form f, string methodName, params object[] parms);
 
-        static void InvokeMethod(Form form, string methodName, params object[] parms)
+        public static object InvokeMethod(Form form, string methodName, params object[] parms)
         {
-            var type = form.GetType();
-            var methodInfo = type.GetMethod(methodName, flags);
-            methodInfo.Invoke(form, parms);
-            are.Set();
+            if (form.InvokeRequired)
+            {
+                Delegate delg = new InvokeMethodDelegate(InvokeMethod);
+                var ret = form.Invoke(delg, new object[] { form, methodName, parms });
+                are.WaitOne();
+                return ret;
+            }
+            else
+            {
+                var type = form.GetType();
+                var methodInfo = type.GetMethod(methodName, flags);
+                var ret = methodInfo.Invoke(form, parms);
+                are.Set();
+                return ret;
+            }
         }
     }
 }

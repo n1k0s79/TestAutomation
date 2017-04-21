@@ -33,8 +33,15 @@ namespace TestHarness
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var pt = new Point(10, 10);
-            InProcess.SetFormPropertyValue(_AUTMainForm, "Location", pt);
+            //var pt = new Point(10, 10);
+            //InProcess.SetFormPropertyValue(_AUTMainForm, "Location", pt);
+            var text = InProcess.GetControlPropertyValue(_AUTMainForm, "textOutput", "Text");
+
+            InProcess.SetControlPropertyValue(_AUTMainForm, "textOutput", "Text", "text set from test harness, previous text was " + text);
+
+            var ret = InProcess.InvokeMethod(_AUTMainForm, "buttonGenerateAll_Click", new object[] { null, EventArgs.Empty });
+            var ret2 = InProcess.InvokeMethod(_AUTMainForm, "GetTestString", new object[] { });
+
         }
 
         private void buttonBrowse_Click(object sender, EventArgs e)
