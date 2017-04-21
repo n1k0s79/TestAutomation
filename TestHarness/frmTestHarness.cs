@@ -20,6 +20,7 @@ namespace TestHarness
         public frmTestHarness()
         {
             InitializeComponent();
+            textTypes.Text = InProcess.Reflect(textPath.Text);
         }
 
         private void buttonLaunchAUT_Click(object sender, EventArgs e)
@@ -34,6 +35,16 @@ namespace TestHarness
         {
             var pt = new Point(10, 10);
             InProcess.SetFormPropertyValue(_AUTMainForm, "Location", pt);
+        }
+
+        private void buttonBrowse_Click(object sender, EventArgs e)
+        {
+            var o = new OpenFileDialog();
+            o.Filter = "*.exe";
+            if (o.ShowDialog() != DialogResult.OK) return;
+            textPath.Text = o.FileName;
+
+            textTypes.Text = InProcess.Reflect(o.FileName);
         }
     }
 }
