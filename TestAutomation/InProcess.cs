@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Threading;
 using System.Reflection;
 using System.Windows.Forms;
@@ -11,82 +9,19 @@ namespace TestAutomation
     {
         public static Form Launch(string assemblyPath, string mainFormName)
         {
-            Assembly assembly = Assembly.LoadFrom(assemblyPath);
-            var types = assembly.GetTypes();
-            Type mainFormType = assembly.GetType(mainFormName);
+            var assembly = Assembly.LoadFrom(assemblyPath);
+            var mainFormType = assembly.GetType(mainFormName);
 
             var ret = (Form)assembly.CreateInstance(mainFormType.FullName);
 
-            AppState state = new AppState(ret);
-            ThreadStart ts = new ThreadStart(state.RunApp);
-            Thread thread = new Thread(ts);
+            var state = new AppState(ret);
+            ThreadStart ts = state.RunApp;
+            var thread = new Thread(ts);
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
             thread.Start();
 
             return ret;
-        }
-
-        public static string Reflect(string assemblyPath)
-        {
-            var assembly = Assembly.LoadFrom(assemblyPath);
-            var types = assembly.GetTypes();
-            string ret = string.Empty;
-            foreach (Type type in types) ret += Reflect(type);
-
-            return ret;
-        }
-
-        private static string Reflect(Type type)
-        {
-            var ret = string.Format("{0} ({1})\r\n", type.Name, type.BaseType.Name);
-
-            var properties = GetProperties(type);
-            ret += string.Format("    {0} Properties ({1})\r\n    --------------------\r\n", type.Name, properties.Length);
-            foreach (var prop in properties) ret += string.Format("    {0} ({1})\r\n", prop.Name, prop.PropertyType.Name);
-            ret += Environment.NewLine;
-
-            var fields = GetFields(type);
-            ret += string.Format("    {0} Fields ({1})\r\n    --------------------\r\n", type.Name, fields.Length);
-            foreach (var field in fields) ret += string.Format("    {0} ({1})\r\n", field.Name, field.FieldType.Name);
-            ret += Environment.NewLine;
-
-            var methods = GetMethods(type);
-            ret += string.Format("    {0} Methods ({1})\r\n    --------------------\r\n", type.Name, methods.Length);
-            foreach (var method in methods) ret += string.Format("    {0} ({1})\r\n", method.Name, method.ReturnType.Name);
-            ret += Environment.NewLine;
-
-            return ret;
-        }
-
-        private static PropertyInfo[] GetProperties(Type type)
-        {
-            var baseProperties = type.BaseType.GetProperties(flags);
-            var ret = new List<PropertyInfo>();
-            foreach (var prop in type.GetProperties(flags))
-                if (!baseProperties.Any(x => x.Name == prop.Name)) ret.Add(prop);
-
-            return ret.ToArray();
-        }
-
-        private static FieldInfo[] GetFields(Type type)
-        {
-            var baseFields = type.BaseType.GetFields(flags);
-            var ret = new List<FieldInfo>();
-            foreach (var field in type.GetFields(flags))
-                if (!baseFields.Any(x => x.Name == field.Name)) ret.Add(field);
-
-            return ret.ToArray();
-        }
-
-        private static MethodInfo[] GetMethods(Type type)
-        {
-            var basemethods = type.BaseType.GetMethods(flags);
-            var ret = new List<MethodInfo>();
-            foreach (var method in type.GetMethods(flags))
-                if (!basemethods.Any(x => x.Name == method.Name)) ret.Add(method);
-
-            return ret.ToArray();
         }
 
         delegate object GetFormPropertyValueDelegate(Form f, string propertyName);
@@ -96,7 +31,7 @@ namespace TestAutomation
             if (form.InvokeRequired)
             {
                 var delg = new GetFormPropertyValueDelegate(GetFormPropertyValue);
-                return form.Invoke(delg, new object[] { form, propertyName });
+                return form.Invoke(delg, form, propertyName );
             }
             else
             {
@@ -114,7 +49,7 @@ namespace TestAutomation
             if (form.InvokeRequired)
             {
                 var delg = new SetFormPropertyValueDelegate(SetFormPropertyValue);
-                form.Invoke(delg, new object[] { form, propertyName, newValue });
+                form.Invoke(delg, form, propertyName, newValue);
             }
             else
             {
@@ -131,23 +66,18 @@ namespace TestAutomation
             if (form.InvokeRequired)
             {
                 var delg = new SetControlPropertyValueDelegate(SetControlPropertyValue);
-                form.Invoke(delg, new object[] { form, controlName, propertyName, newValue });
+                form.Invoke(delg, form, controlName, propertyName, newValue);
             }
             else
             {
                 var type = form.GetType();
-                var fieldInfo = type.GetField(controlName, flags);
+                var fieldInfo = type.GetField(controlName, Reflector.Flags);
                 object control = fieldInfo.GetValue(form);
                 var controlType = control.GetType();
                 PropertyInfo propInfo = controlType.GetProperty(propertyName);
                 propInfo.SetValue(control, newValue, null);
             }
         }
-
-        static BindingFlags flags = BindingFlags.Public |
-                                 BindingFlags.NonPublic |
-                                    BindingFlags.Static |
-                                  BindingFlags.Instance;
 
         delegate object GetControlPropertyValueDelegate(Form form, string controlName, string propertyName);
 
@@ -156,12 +86,12 @@ namespace TestAutomation
             if (form.InvokeRequired)
             {
                 var delg = new GetControlPropertyValueDelegate(GetControlPropertyValue);
-                return form.Invoke(delg, new object[] { form, controlName, propertyName });
+                return form.Invoke(delg, form, controlName, propertyName );
             }
             else
             {
                 var formType = form.GetType();
-                var fieldInfo = formType.GetField(controlName, flags);
+                var fieldInfo = formType.GetField(controlName, Reflector.Flags);
                 object control = fieldInfo.GetValue(form);
                 var controlType = control.GetType();
                 var propInfo = controlType.GetProperty(propertyName);
@@ -179,14 +109,14 @@ namespace TestAutomation
             if (form.InvokeRequired)
             {
                 Delegate delg = new InvokeMethodDelegate(InvokeMethod);
-                var ret = form.Invoke(delg, new object[] { form, methodName, parms });
+                var ret = form.Invoke(delg, form, methodName, parms );
                 are.WaitOne();
                 return ret;
             }
             else
             {
                 var type = form.GetType();
-                var methodInfo = type.GetMethod(methodName, flags);
+                var methodInfo = type.GetMethod(methodName, Reflector.Flags);
                 var ret = methodInfo.Invoke(form, parms);
                 are.Set();
                 return ret;

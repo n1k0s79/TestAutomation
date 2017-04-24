@@ -20,7 +20,7 @@ namespace TestHarness
         public frmTestHarness()
         {
             InitializeComponent();
-            textTypes.Text = InProcess.Reflect(textPath.Text);
+            textOutput.Text = Reflector.GetTypeDetails(textPath.Text);
         }
 
         private void buttonLaunchAUT_Click(object sender, EventArgs e)
@@ -38,10 +38,12 @@ namespace TestHarness
             var text = InProcess.GetControlPropertyValue(_AUTMainForm, "textOutput", "Text");
 
             InProcess.SetControlPropertyValue(_AUTMainForm, "textOutput", "Text", "text set from test harness, previous text was " + text);
+            var enabled = InProcess.GetControlPropertyValue(_AUTMainForm, "buttonGenerateAllCombinations", "Enabled");
 
             var ret = InProcess.InvokeMethod(_AUTMainForm, "buttonGenerateAll_Click", new object[] { null, EventArgs.Empty });
             var ret2 = InProcess.InvokeMethod(_AUTMainForm, "GetTestString", new object[] { });
-
+            
+            var text2 = InProcess.GetControlPropertyValue(_AUTMainForm, "textOutput", "Text");
         }
 
         private void buttonBrowse_Click(object sender, EventArgs e)
@@ -51,7 +53,13 @@ namespace TestHarness
             if (o.ShowDialog() != DialogResult.OK) return;
             textPath.Text = o.FileName;
 
-            textTypes.Text = InProcess.Reflect(o.FileName);
+            textOutput.Text = Reflector.GetTypeDetails(o.FileName);
+        }
+
+        private void buttonExplore_Click(object sender, EventArgs e)
+        {
+            var f = new frmAssemblyExplorer(textPath.Text);
+            f.ShowDialog();
         }
     }
 }

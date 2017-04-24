@@ -19,7 +19,7 @@ namespace Math
 
         public T[] InitialOrderItems { get; private set; }
 
-        /// <summary> A permutation of items </summary>
+        /// <summary> Initializes the first permutation of the items </summary>
         public Permutation(T[] items)
         {
             this.InitialOrderItems = items;
@@ -38,25 +38,20 @@ namespace Math
                 factoradic[items.Length - j] = m % j;
                 m /= j;
             }
+
             int[] temp = new int[items.Length];
-            for (int i = 0; i < items.Length; ++i)
-            {
-                temp[i] = ++factoradic[i];
-            }
+            for (int i = 0; i < items.Length; ++i) temp[i] = ++factoradic[i];
+
             this.indexes[items.Length - 1] = 1;
             for (int i = items.Length - 2; i >= 0; --i)
             {
                 this.indexes[i] = temp[i];
                 for (int j = i + 1; j < items.Length; ++j)
                 {
-                    if (this.indexes[j] >= this.indexes[i])
-                        ++this.indexes[j];
+                    if (this.indexes[j] >= this.indexes[i]) ++this.indexes[j];
                 }
             }
-            for (int i = 0; i < items.Length; ++i)
-            {
-                --this.indexes[i];
-            }
+            for (int i = 0; i < items.Length; ++i) --this.indexes[i];
         }
 
         private long[] GetInitialIndexes(int length)
@@ -106,6 +101,8 @@ namespace Math
             }
         }
 
+        /// <summary> Gets all possible permutations </summary>
+        /// <remarks> That may be a LOT of permutations!</remarks>
         public static List<Permutation<T>> GetAllPossible(T[] items)
         {
             var ret = new List<Permutation<T>>();
@@ -120,6 +117,7 @@ namespace Math
             return ret;
         }
 
+        /// <summary> Gets the next permutation </summary>
         public Permutation<T> GetSuccessor()
         {
             var ret = this.Copy();
