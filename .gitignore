@@ -1,9 +1,4 @@
-AppUnderTest/bin
-AppUnderTest/obj
-Math/bin
-Math/obj
-TestHarness/bin
-TestHarness/obj
-TestAutomation/bin
-TestAutomation/obj
-.vs
+bin/
+obj/
+*.vs
+*.suo

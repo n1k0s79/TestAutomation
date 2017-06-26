@@ -6,6 +6,16 @@ namespace AppUnderTest
 {
     public partial class MainForm : Form
     {
+        public MainForm(string name)
+        {
+            InitializeComponent();
+            this.UpdatePossibleCombinations();
+            this.UpdatePossiblePermutations();
+            this.UpdateMthCombination();
+            this.UpdateMthPermutation();
+            string k = name;
+        }
+
         public MainForm()
         {
             InitializeComponent();

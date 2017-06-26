@@ -7,13 +7,13 @@ namespace TestAutomation
 {
     public static class InProcess
     {
-        public static Form Launch(string assemblyPath, string mainFormName)
+        public static Form Launch(string assemblyPath, string mainFormName, object[] args)
         {
             var assembly = Assembly.LoadFrom(assemblyPath);
             var mainFormType = assembly.GetType(mainFormName);
 
-            var ret = (Form)assembly.CreateInstance(mainFormType.FullName);
-
+            var ret = (Form)Activator.CreateInstance(mainFormType, args);
+            
             var state = new AppState(ret);
             ThreadStart ts = state.RunApp;
             var thread = new Thread(ts);

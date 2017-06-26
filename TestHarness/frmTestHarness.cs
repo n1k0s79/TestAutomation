@@ -20,7 +20,6 @@ namespace TestHarness
         public frmTestHarness()
         {
             InitializeComponent();
-            textOutput.Text = Reflector.GetTypeDetails(textPath.Text);
         }
 
         private void buttonLaunchAUT_Click(object sender, EventArgs e)
@@ -28,7 +27,7 @@ namespace TestHarness
             string path = "..\\..\\..\\AppUnderTest\\bin\\Debug\\AppUnderTest.exe";
             string formName = "AppUnderTest.MainForm";
 
-            _AUTMainForm = InProcess.Launch(path, formName);
+            _AUTMainForm = InProcess.Launch(path, formName, new object [] { "nikos" });
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,6 +43,10 @@ namespace TestHarness
             var ret2 = InProcess.InvokeMethod(_AUTMainForm, "GetTestString", new object[] { });
             
             var text2 = InProcess.GetControlPropertyValue(_AUTMainForm, "textOutput", "Text");
+
+            //Assert.Eaus(text2, "nikos");
+            //var CardsGrid
+            //Asser(CardsGrid.lin1.cell2, "pistotiki")
         }
 
         private void buttonBrowse_Click(object sender, EventArgs e)
